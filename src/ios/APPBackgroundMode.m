@@ -16,6 +16,7 @@ NSString* const kAPPBackgroundEventActivate = @"activate";
 NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 NSString* const kAPPBackgroundEventOnInterrupt = @"shutup";
 NSString* const kAPPBackgroundEventOnInterruptRestore = @"playagain";
+NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
 
 
 #pragma mark -
@@ -188,11 +189,13 @@ NSString* const kAPPBackgroundEventOnInterruptRestore = @"playagain";
     int interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
     if (interruptionType == AVAudioSessionInterruptionTypeBegan) {
         [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
-    } else if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
+    } 
+    if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
        // if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
        // }        
     }
+    [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest];   
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
 }
