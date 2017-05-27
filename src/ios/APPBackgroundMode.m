@@ -189,9 +189,9 @@ NSString* const kAPPBackgroundEventOnInterruptRestore = @"playagain";
     if (interruptionType == AVAudioSessionInterruptionTypeBegan) {
         [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
     } else if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
-        if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
+       // if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
-        }        
+       // }        
     }
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
