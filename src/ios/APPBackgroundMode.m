@@ -195,6 +195,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
        // }        
     }
+    ft = interruptionType;
     [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest];   
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
@@ -231,8 +232,8 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
 
 - (void) fireEventSpecial:(NSString*)event
 {
-    NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@');",
-                    kAPPBackgroundJsNamespace, event];
+    NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@','%@');",
+                    kAPPBackgroundJsNamespace, event, ft];
 
     NSString* js = [NSString stringWithFormat:@"%@", fn];
 
