@@ -191,12 +191,15 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
     } 
     if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
-       // if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
+        if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
-       // }        
+        }        
     }       
-    NSString* js = [NSString stringWithFormat:@"throw new Error('itv %@');", interruptionType];
+   /*
+     NSString* js = [NSString stringWithFormat:@"throw new Error('itv %@');", interruptionType];
     [self.commandDelegate evalJs:js];
+   */
+    [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest]; 
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
 }
