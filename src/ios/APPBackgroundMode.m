@@ -1,22 +1,5 @@
 /*
-  Copyright 2013-2017 appPlant GmbH
 
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
 */
 
 #import "APPMethodMagic.h"
@@ -31,6 +14,8 @@
 NSString* const kAPPBackgroundJsNamespace = @"cordova.plugins.backgroundMode";
 NSString* const kAPPBackgroundEventActivate = @"activate";
 NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
+NSString* const kAPPBackgroundEventOnInterrupt = @"shutup";
+NSString* const kAPPBackgroundEventOnInterruptRestore = @"playagain";
 
 
 #pragma mark -
@@ -199,7 +184,15 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  * Restart playing sound when interrupted by phone calls.
  */
 - (void) handleAudioSessionInterruption:(NSNotification*)notification
-{
+{    
+    int interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
+    if (interruptionType == AVAudioSessionInterruptionTypeBegan) {
+        [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
+    } else if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
+        if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
+         [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
+        }        
+    }
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
 }
@@ -223,16 +216,26 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
     NSString* flag = [NSString stringWithFormat:@"%@._isActive=%@;",
                       kAPPBackgroundJsNamespace, active];
 
-    NSString* depFn = [NSString stringWithFormat:@"%@.on%@();",
-                       kAPPBackgroundJsNamespace, event];
-
     NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@');",
                     kAPPBackgroundJsNamespace, event];
 
-    NSString* js = [NSString stringWithFormat:@"%@%@%@", flag, depFn, fn];
+    NSString* js = [NSString stringWithFormat:@"%@%@", flag, fn];
 
     [self.commandDelegate evalJs:js];
 }
+
+
+
+- (void) fireEventSpecial:(NSString*)event
+{
+    NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@');",
+                    kAPPBackgroundJsNamespace, event];
+
+    NSString* js = [NSString stringWithFormat:@"%@", fn];
+
+    [self.commandDelegate evalJs:js];
+}
+
 
 #pragma mark -
 #pragma mark Swizzling

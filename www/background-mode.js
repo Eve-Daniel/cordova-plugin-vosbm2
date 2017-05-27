@@ -1,31 +1,5 @@
-/*
-    Copyright 2013-2017 appPlant GmbH
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-*/
-
 var exec    = require('cordova/exec'),
     channel = require('cordova/channel');
-
-
-/*************
- * INTERFACE *
- *************/
 
 /**
  * Activates the background mode. When activated the application
@@ -79,14 +53,6 @@ exports.setEnabled = function (enable) {
     }
 };
 
-/**
- * List of all available options with their default value.
- *
- * @return [ Object ]
- */
-exports.getDefaults = function() {
-    return this._defaults;
-};
 
 /**
  * The actual applied settings.
@@ -97,146 +63,6 @@ exports.getSettings = function() {
     return this._settings || {};
 };
 
-/**
- * Overwrite the default settings.
- *
- * @param [ Object ] overrides Dict of options to be overridden.
- *
- * @return [ Void ]
- */
-exports.setDefaults = function (overrides) {
-    var defaults = this.getDefaults();
-
-    for (var key in defaults) {
-        if (overrides.hasOwnProperty(key)) {
-            defaults[key] = overrides[key];
-        }
-    }
-
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'configure', [defaults, false]);
-    }
-};
-
-/**
- * Configures the notification settings for Android.
- * Will be merged with the defaults.
- *
- * @param [ Object ] options Dict of options to be overridden.
- *
- * @return [ Void ]
- */
-exports.configure = function (options) {
-    var settings = this.getSettings(),
-        defaults = this.getDefaults();
-
-    if (!this._isAndroid)
-        return;
-
-    if (!this._isActive) {
-        console.log('BackgroundMode is not active, skipped...');
-        return;
-    }
-
-    this._mergeObjects(options, settings);
-    this._mergeObjects(options, defaults);
-    this._settings = options;
-
-    cordova.exec(null, null, 'BackgroundMode', 'configure', [options, true]);
-};
-
-/**
- * Enable GPS-tracking in background (Android).
- *
- * @return [ Void ]
- */
-exports.disableWebViewOptimizations = function() {
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'optimizations', []);
-    }
-};
-
-/**
- * Move app to background (Android only).
- *
- * @return [ Void ]
- */
-exports.moveToBackground = function() {
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'background', []);
-    }
-};
-
-/**
- * Move app to foreground when in background (Android only).
- *
- * @return [ Void ]
- */
-exports.moveToForeground = function() {
-    if (this.isActive() && this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'foreground', []);
-    }
-};
-
-/**
- * Exclude the app from the recent tasks list (Android only).
- *
- * @return [ Void ]
- */
-exports.excludeFromTaskList = function() {
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'tasklist', []);
-    }
-};
-
-/**
- * Override the back button on Android to go to background
- * instead of closing the app.
- *
- * @return [ Void ]
- */
-exports.overrideBackButton = function() {
-    document.addEventListener('backbutton', function() {
-        exports.moveToBackground();
-    }, false);
-};
-
-/**
- * If the screen is off.
- *
- * @param [ Function ] fn Callback function to invoke with boolean arg.
- *
- * @return [ Void ]
- */
-exports.isScreenOff = function (fn) {
-    if (this._isAndroid) {
-        cordova.exec(fn, null, 'BackgroundMode', 'dimmed', []);
-    } else {
-        fn(undefined);
-    }
-};
-
-/**
- * Wake up the device.
- *
- * @return [ Void ]
- */
-exports.wakeUp = function() {
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'wakeup', []);
-    }
-};
-
-/**
- * Wake up and unlock the device.
- *
- * @return [ Void ]
- */
-exports.unlock = function() {
-    if (this._isAndroid) {
-        cordova.exec(null, null, 'BackgroundMode', 'unlock', []);
-    }
-};
 
 /**
  * If the mode is enabled or disabled.
@@ -332,30 +158,7 @@ exports.un = function (event, callback) {
         }
     }
 };
-
-/**
- * @deprecated
- *
- * Called when the background mode has been activated.
- */
-exports.onactivate = function() {};
-
-/**
- * @deprecated
- *
- * Called when the background mode has been deaktivated.
- */
-exports.ondeactivate = function() {};
-
-/**
- * @deprecated
- *
- * Called when the background mode could not been activated.
- *
- * @param {Integer} errorCode
- *      Error code which describes the error
- */
-exports.onfailure = function() {};
+exports.off = exports.un;
 
 
 /***********
@@ -376,21 +179,7 @@ exports._isEnabled = false;
  */
 exports._isActive = false;
 
-/**
- * @private
- *
- * Default values of all available options.
- */
-exports._defaults = {
-    title:   'App is running in background',
-    text:    'Doing heavy tasks.',
-    bigText: false,
-    resume:  true,
-    silent:  false,
-    hidden:  true,
-    color:   undefined,
-    icon:    'icon'
-};
+
 
 /**
  * @private
@@ -428,7 +217,7 @@ exports._setActive = function(value) {
         return;
 
     this._isActive = value;
-    this._settings = value ? this._mergeObjects({}, this._defaults) : {};
+    this._settings = value ? this._mergeObjects({}, {}) : {};
 };
 
 /**
@@ -442,8 +231,8 @@ exports._setActive = function(value) {
  * @return [ Void ]
  */
 exports._pluginInitialize = function() {
-    this._isAndroid = device.platform.match(/^android|amazon/i) !== null;
-    this.setDefaults({});
+    this._isAndroid = false;//device.platform.match(/^android|amazon/i) !== null;
+    //this.setDefaults({});
 
     if (device.platform == 'browser') {
         this.enable();

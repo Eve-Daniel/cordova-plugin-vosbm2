@@ -1,10 +1,10 @@
 {
   "name": "cordova-plugin-vosbm2",
   "version": "0.7.2",
-  "description": "Prevent app from going to sleep in background.",
+  "description": "keep",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/katzer/cordova-plugin-background-mode.git"
+    "url": "git+https://github.com/Eve-Daniel/cordova-plugin-vosbm2.git"
   },
   "keywords": [
     "appplant",
@@ -22,10 +22,10 @@
       "version": ">=6.0.0"
     }
   ],
-  "author": "Sebastián Katzer",
+  "author": "Sebastián Katzer && Eve Daniel",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/katzer/cordova-plugin-background-mode/issues"
+    "url": "https://github.com/Eve-Daniel/cordova-plugin-vosbm2/issues"
   },
-  "homepage": "https://github.com/katzer/cordova-plugin-background-mode#readme"
+  "homepage": "https://github.com/Eve-Daniel/cordova-plugin-vosbm2#readme"
 }
