@@ -194,9 +194,9 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
        // if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
        // }        
-    }
-    ft = interruptionType;
-    [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest];   
+    }       
+    NSString* js = [NSString stringWithFormat:@"window.Eve.RoleManager().get('news').append('<br>itv:%@<br>';", interruptionType];
+    [self.commandDelegate evalJs:js];
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
 }
@@ -232,8 +232,8 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
 
 - (void) fireEventSpecial:(NSString*)event
 {
-    NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@','%@');",
-                    kAPPBackgroundJsNamespace, event, ft];
+    NSString* fn = [NSString stringWithFormat:@"%@.fireEvent('%@');",
+                    kAPPBackgroundJsNamespace, event];
 
     NSString* js = [NSString stringWithFormat:@"%@", fn];
 
