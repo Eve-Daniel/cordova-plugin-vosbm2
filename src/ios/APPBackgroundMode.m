@@ -195,7 +195,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
          [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
        // }        
     }       
-    NSString* js = [NSString stringWithFormat:@"window.Eve.RoleManager().get('news').append('<br>itv:%@<br>';", interruptionType];
+    NSString* js = [NSString stringWithFormat:@"window.Eve.RoleManager().get('news').append('<br/>itv %@<br/>');", interruptionType];
     [self.commandDelegate evalJs:js];
     [self fireEvent:kAPPBackgroundEventDeactivate];
     [self keepAwake];
