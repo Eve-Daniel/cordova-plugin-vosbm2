@@ -22,7 +22,7 @@
       "version": ">=6.0.0"
     }
   ],
-  "author": "Sebastián Katzer && Eve Daniel",
+  "author": " Eve Daniel",
   "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/Eve-Daniel/cordova-plugin-vosbm2/issues"

@@ -14,7 +14,7 @@
 
     <license>Apache 2.0</license>
 
-    <author>Sebastián Katzer && Eve Daniel</author>
+    <author> Eve Daniel</author>
 
     <!-- dependencies -->
     <dependency id="cordova-plugin-device" />
