@@ -5,7 +5,8 @@
 #import <Cordova/CDVPlugin.h>
 
 @interface APPBackgroundMode : CDVPlugin {
-    AVAudioPlayer* audioPlayer;  
+    AVAudioPlayer* audioPlayer;
+    AVAudioSession* session;
     BOOL enabled;   
 }
 
