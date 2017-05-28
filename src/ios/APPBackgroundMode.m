@@ -63,7 +63,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [listener addObserver:self
                      selector:@selector(handleAudioSessionInterruption:)
                          name:AVAudioSessionInterruptionNotification
-                       object:nil];
+                       object:audioSession];
 }
 
 #pragma mark -
