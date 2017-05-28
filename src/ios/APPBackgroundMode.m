@@ -63,8 +63,8 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [listener addObserver:self
                      selector:@selector(handleAudioSessionInterruption:)
                          name:AVAudioSessionInterruptionNotification
-                       object:[AVAudioSession
-                               sharedInstance]];
+                       object:[AVAudioSession sharedInstance]];
+        
 }
 
 #pragma mark -
@@ -151,8 +151,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
  */
 - (void) configureAudioSession
 {
-      AVAudioSession* session = [AVAudioSession
-                               sharedInstance];
+    AVAudioSession* session = [AVAudioSession sharedInstance];
 
     // Don't activate the audio session yet
     [session setActive:NO error:NULL];
@@ -192,14 +191,13 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
     } 
     if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
-        /*if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
-         
+        /*if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {         
          */
         [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
         /*}*/        
     }       
-   /*
-     NSString* js = [NSString stringWithFormat:@"throw new Error('itv %@');", interruptionType];
+   
+    /* NSString* js = [NSString stringWithFormat:@"throw new Error('itv %@');", interruptionType];
     [self.commandDelegate evalJs:js];
    */
     [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest]; 
