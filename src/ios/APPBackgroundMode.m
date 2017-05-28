@@ -202,7 +202,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
    */
     [self fireEventSpecial:kAPPBackgroundEventOnInterruptTest]; 
     [self fireEvent:kAPPBackgroundEventDeactivate];
-    [self keepAwake];
+    /** [self keepAwake];*/
 }
 
 /**
