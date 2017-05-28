@@ -151,7 +151,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
  */
 - (void) configureAudioSession
 {
-     session = [AVAudioSession
+      AVAudioSession* session = [AVAudioSession
                                sharedInstance];
 
     // Don't activate the audio session yet
