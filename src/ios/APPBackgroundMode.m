@@ -63,7 +63,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [listener addObserver:self
                      selector:@selector(handleAudioSessionInterruption:)
                          name:AVAudioSessionInterruptionNotification
-                       object:session];
+                       object:nil];
 }
 
 #pragma mark -
@@ -191,9 +191,11 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [self fireEventSpecial:kAPPBackgroundEventOnInterrupt];
     } 
     if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
-        if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
-         [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
-        }        
+        /*if ([notification.userInfo[AVAudioSessionInterruptionOptionKey] intValue] == AVAudioSessionInterruptionOptionShouldResume) {
+         
+         */
+        [self fireEventSpecial:kAPPBackgroundEventOnInterruptRestore];   
+        /*}*/        
     }       
    /*
      NSString* js = [NSString stringWithFormat:@"throw new Error('itv %@');", interruptionType];
