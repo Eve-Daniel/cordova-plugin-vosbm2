@@ -108,7 +108,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
     if (!enabled)
         return;
 
-    [audioPlayer play];
+    /* [audioPlayer play];*/
     [self fireEvent:kAPPBackgroundEventActivate];
 }
 
@@ -125,7 +125,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [self fireEvent:kAPPBackgroundEventDeactivate];
     }
 
-    [audioPlayer pause];
+    /* [audioPlayer pause];*/
 }
 
 /**
