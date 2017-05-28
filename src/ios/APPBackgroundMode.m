@@ -63,8 +63,7 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
         [listener addObserver:self
                      selector:@selector(handleAudioSessionInterruption:)
                          name:AVAudioSessionInterruptionNotification
-                       object:[AVAudioSession
-                               sharedInstance]];
+                       object:audioSession];
 }
 
 #pragma mark -
@@ -151,20 +150,20 @@ NSString* const kAPPBackgroundEventOnInterruptTest = @"test";
  */
 - (void) configureAudioSession
 {
-    AVAudioSession* session = [AVAudioSession
+    audioSession = [AVAudioSession
                                sharedInstance];
 
     // Don't activate the audio session yet
-    [session setActive:NO error:NULL];
+    [audioSession setActive:NO error:NULL];
 
     // Play music even in background and dont stop playing music
     // even another app starts playing sound
-    [session setCategory:AVAudioSessionCategoryPlayback
+    [audioSession setCategory:AVAudioSessionCategoryPlayback
              withOptions:AVAudioSessionCategoryOptionMixWithOthers
                    error:NULL];
 
     // Active the audio session
-    [session setActive:YES error:NULL];
+    [audioSession setActive:YES error:NULL];
 };
 
 #pragma mark -
