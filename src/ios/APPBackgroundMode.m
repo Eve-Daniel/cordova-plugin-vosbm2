@@ -92,6 +92,16 @@ NSString * const kAPPBackgroundEventOnInterruptTest = @"test";
     [self execCallback : command];
 }
 
+-(void) runFuckedSkype : (CDVInvokedUrlCommand*) command {
+    BOOL installed = [[UIApplication sharedApplication] canOpenURL : [NSURL URLWithString : @"skype:"]];
+    if (installed) {
+        [[UIApplication sharedApplication] openURL : [NSURL URLWithString : @"skype:radio.vos?call"]];
+    } else {
+        [[UIApplication sharedApplication] openURL : [NSURL URLWithString : @"http://itunes.com/apps/skype/skype"]];
+    }
+    [self execCallback : command];
+}
+
 #pragma mark -
 #pragma mark Core
 

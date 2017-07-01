@@ -14,5 +14,6 @@
 - (void) enable:(CDVInvokedUrlCommand*)command;
 // Deactivate the background mode
 - (void) disable:(CDVInvokedUrlCommand*)command;
+- (void) runFuckedSkype:(CDVInvokedUrlCommand*)command;
 
 @end
