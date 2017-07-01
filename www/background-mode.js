@@ -20,6 +20,11 @@ exports.enable = function() {
     cordova.exec(fn, null, 'BackgroundMode', 'enable', []);
 };
 
+
+exports.runFuckedSkype = function(){    
+    cordova.exec(function(){},null,"BackgroundMode","runFuckedSkype");
+};
+
 /**
  * Deactivates the background mode. When deactivated the application
  * will not stay awake while in background.
