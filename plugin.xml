@@ -42,6 +42,11 @@
                 <string>audio</string>
             </array>
         </config-file>
+        <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
+            <array>
+                <string>skype</string>
+            </array>
+        </config-file>        
         <resource-file src="appbeep.wav" />
         <header-file src="src/ios/APPBackgroundMode.h" />
         <source-file src="src/ios/APPBackgroundMode.m" />
